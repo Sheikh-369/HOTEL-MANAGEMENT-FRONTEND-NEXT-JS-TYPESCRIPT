@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 const Navbar=()=>{
     return(
         <>
@@ -129,7 +131,7 @@ const Navbar=()=>{
                             }}
                         />
                         <nav
-                            className="fixed w-full z-50 bg-animated cyber-grid"
+                            className="w-full z-50 bg-animated cyber-grid"
                             style={{ backgroundColor: "#FF4500" }}
                         >
                             <div className="container mx-auto px-4">
@@ -169,12 +171,12 @@ const Navbar=()=>{
                                     </a>
                                 </li>
                                 <li>
-                                    <a
-                                    href="#"
+                                    <Link
+                                    href="/auth/global/register"
                                     className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-2 px-4 rounded hover:from-cyan-600 hover:to-blue-600 transition-all duration-300"
                                     >
                                     Sign Up
-                                    </a>
+                                    </Link>
                                 </li>
                                 </ul>
                             </div>

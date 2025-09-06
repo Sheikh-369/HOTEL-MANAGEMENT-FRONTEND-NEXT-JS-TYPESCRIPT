@@ -2,7 +2,7 @@ const Footer=()=>{
     return(
         <>
             <footer 
-                className="absolute bottom-0 w-full text-white py-8" 
+                className="w-full text-white py-8" 
                 style={{ background: 'linear-gradient(to top, #FF4500, #FF6347)' }} // Reddish-orange gradient similar to navbar
                 >
                 <div className="container mx-auto flex flex-wrap justify-between">
