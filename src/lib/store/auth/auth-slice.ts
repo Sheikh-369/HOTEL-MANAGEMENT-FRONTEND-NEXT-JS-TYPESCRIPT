@@ -4,6 +4,7 @@ import { IAuthSliceState, IUserRegisterData } from "./authSliceType";
 import { RegisterData } from "@/app/auth/global/register/page";
 import { AppDispatch } from "../store";
 import API from "@/lib/http/API";
+import { ILgiinData } from "@/app/auth/global/login/page";
 
 const initialState:IAuthSliceState={
     user:{
@@ -32,11 +33,17 @@ const authSlice=createSlice({
         setMessage(state:IAuthSliceState,action:PayloadAction<string 
             | null>){
                 state.message=action.payload
-            }
+        },
+
+        //used in redirecting after success or error(with reducers)
+        resetStatus(state: IAuthSliceState) {
+            state.status = Status.IDLE;
+        }
+
     }
 })
 
-const{setUser,setStatus,setMessage}=authSlice.actions
+export const{setUser,setStatus,setMessage,resetStatus}=authSlice.actions
 export default authSlice.reducer
 
 export function userRegister(registerData:RegisterData){
@@ -57,4 +64,21 @@ export function userRegister(registerData:RegisterData){
             dispatch(setMessage(error.response?.data?.message || "Network/servererror"));
         }
     }
+}
+
+export function userLogin(loginData:ILgiinData) {
+    return async function userLoginThunk(dispatch: AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        dispatch(setMessage(null));
+
+        try {
+                const response = await API.post("auth/login",loginData);
+
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setMessage(response.data.message)); // backend success message
+            } catch (error: any) {
+            dispatch(setStatus(Status.ERROR));
+            dispatch(setMessage(error.response?.data?.message || "Network/servererror"));
+        }
+    };
 }

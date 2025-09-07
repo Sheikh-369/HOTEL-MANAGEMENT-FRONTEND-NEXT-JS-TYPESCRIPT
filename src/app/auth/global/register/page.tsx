@@ -1,7 +1,8 @@
 "use client"
 import { Status } from "@/lib/global-type/type"
-import { userRegister } from "@/lib/store/auth/auth-slice"
+import { resetStatus, userRegister } from "@/lib/store/auth/auth-slice"
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 
@@ -16,12 +17,7 @@ export interface RegisterData{
 const UserRegister=()=>{
   const { status, message } = useAppSelector((store) => store.auth);//for backend message
   const router=useRouter()
-  useEffect(() => {
-  if (status === Status.SUCCESS && message) {
-    // ✅ Redirects towards login page after success
-    router.push(`/auth/global/login?success=${encodeURIComponent(message)}`); // or "/dashboard" if auto-login
-  }
-}, [status, message,router]);
+  
 
   const dispatch=useAppDispatch()//for submition data sending
     const[registerData,setRegisterData]=useState<RegisterData>({
@@ -45,6 +41,14 @@ const UserRegister=()=>{
       await dispatch(userRegister(registerData))
 
     }
+
+  //sending to login page
+  useEffect(() => {
+  if (status === Status.SUCCESS && message) {
+    // ✅ Redirects towards login page after success
+    router.push(`/auth/global/login?success=${encodeURIComponent(message)}`); // or "/dashboard" if auto-login
+    dispatch(resetStatus()); // clear SUCCESS status after redirect
+  }}, [status, message,router,dispatch]);
 
     return(
         <>
@@ -167,9 +171,9 @@ const UserRegister=()=>{
           {/* Switch to Login */}
           <p className="mt-5 text-center text-cyan-200 text-sm">
             Already have an account?{" "}
-            <button type="button" className="text-cyan-400 hover:text-white font-semibold">
+            <Link href="/auth/global/login" className="text-cyan-400 hover:text-white font-semibold">
               Sign In
-            </button>
+            </Link>
           </p>
         </form>
       </div>
