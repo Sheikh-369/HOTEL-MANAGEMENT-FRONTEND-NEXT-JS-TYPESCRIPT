@@ -5,6 +5,8 @@ import { RegisterData } from "@/app/auth/global/register/page";
 import { AppDispatch } from "../store";
 import API from "@/lib/http/API";
 import { ILgiinData } from "@/app/auth/global/login/page";
+import { IForgotPasswordData } from "@/app/auth/global/forgot-password/page";
+import { IResetPasswordData } from "@/app/auth/global/reset-password/page";
 
 const initialState:IAuthSliceState={
     user:{
@@ -77,8 +79,43 @@ export function userLogin(loginData:ILgiinData) {
                 dispatch(setStatus(Status.SUCCESS));
                 dispatch(setMessage(response.data.message)); // backend success message
             } catch (error: any) {
+                dispatch(setStatus(Status.ERROR));
+                dispatch(setMessage(error.response?.data?.message || "Network/servererror"));
+        }
+    };
+}
+
+
+export function forgotPassword(forgotPasswordData:IForgotPasswordData) {
+    return async function forgotPasswordThunk(dispatch: AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        dispatch(setMessage(null));
+
+ 	try {
+    		const response = await API.post("auth/forgot-password",forgotPasswordData);
+      		dispatch(setStatus(Status.SUCCESS));
+      		dispatch(setMessage(response.data.message)); // backend success message
+    	} catch (error: any) {
             dispatch(setStatus(Status.ERROR));
             dispatch(setMessage(error.response?.data?.message || "Network/servererror"));
+    }
+  };
+}
+
+
+export function resetPassword(resetPasswordData: IResetPasswordData) {
+    return async function resetPasswordThunk(dispatch: AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        dispatch(setMessage(null));
+
+        try {
+                const response = await API.post("auth/reset-password", resetPasswordData);
+
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setMessage(response.data.message)); // backend success message
+            } catch (error: any) {
+                dispatch(setStatus(Status.ERROR));
+                dispatch(setMessage(error.response?.data?.message || "Network/servererror"));
         }
     };
 }
