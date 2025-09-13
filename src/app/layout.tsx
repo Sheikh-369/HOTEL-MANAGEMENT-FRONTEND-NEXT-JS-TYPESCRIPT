@@ -2,10 +2,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/lib/component/navbar/navbar";
-import Footer from "@/lib/component/footer/footer";
+import Navbar from "@/app/component/navbar/navbar";
+import Footer from "@/app/component/footer/footer";
 import { Provider } from "react-redux";
 import store from "@/lib/store/store";
+import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,10 +24,13 @@ const geistMono = Geist_Mono({
 // };
 
 export default function RootLayout({
+  
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname=usePathname()
+  const noNavbarRoutes = ["/admin/dashboard", "/admin/dashboard/category","/admin/dashboard/reservation","/admin/dashboard/menu","/admin/dashboard/table"]
   return (
     <html lang="en">
       <body
@@ -34,11 +38,11 @@ export default function RootLayout({
       >
         <Provider store={store}>
         <div className="flex flex-col min-h-screen">
-        <Navbar/>
+          {!noNavbarRoutes.includes(pathname) && <Navbar />}
         <main className="flex-grow">
             {children}
           </main>
-        <Footer/>
+        {!noNavbarRoutes.includes(pathname) && <Footer />}
         </div>
         </Provider>
       </body>
