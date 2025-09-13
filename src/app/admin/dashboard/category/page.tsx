@@ -7,108 +7,107 @@ import { useEffect, useState } from "react"
 import AddCategoryModal from "./addCategoryModal"
 import EditCategoryModal from "./editCategoryModal"
 
-
-const Category= () => {
+const Category = () => {
   const dispatch = useAppDispatch()
 
-  //Modal (for adding category)
-  const [isModalOpen,setIsModalOpen]=useState<boolean>(false)
-  const openModal=()=>setIsModalOpen(true)
-  const closeModal=()=>setIsModalOpen(false)
+  // Modal (for adding category)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
 
-  //Modal (for editing category)
-  const [editCategoryModalOpen,setEditCateryModalOpen]=useState<boolean>(false)
-  const[selectedCategory,setSelectedCategory]=useState<ICategoryData | null>(null)
-
-  //openEditModal
-  const openEditCategoryModalOpen=(category:ICategoryData)=>{
+  // Modal (for editing category)
+  const [editCategoryModalOpen, setEditCateryModalOpen] = useState<boolean>(false)
+  const [selectedCategory, setSelectedCategory] = useState<ICategoryData | null>(null)
+  const openEditCategoryModalOpen = (category: ICategoryData) => {
     setSelectedCategory(category)
     setEditCateryModalOpen(true)
   }
-
-  //close edit modal
-  const  closeEditCategoryModal=()=>{
+  const closeEditCategoryModal = () => {
     setEditCateryModalOpen(false)
     setSelectedCategory(null)
   }
 
-  //for delete with pop up
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [categoryToDelete, setCategoryToDelete] = useState<ICategoryData | null>(null);
+  // Delete pop-up
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [categoryToDelete, setCategoryToDelete] = useState<ICategoryData | null>(null)
 
   const openDeleteModal = (category: ICategoryData) => {
-    setCategoryToDelete(category);
-    setDeleteModalOpen(true);
-  };
+    setCategoryToDelete(category)
+    setDeleteModalOpen(true)
+  }
 
   const closeDeleteModal = () => {
-    setCategoryToDelete(null);
-    setDeleteModalOpen(false);
-  };
+    setCategoryToDelete(null)
+    setDeleteModalOpen(false)
+  }
 
   const confirmDelete = () => {
     if (categoryToDelete?.id) {
-      dispatch(deleteCategory(String(categoryToDelete.id)));
+      dispatch(deleteCategory(String(categoryToDelete.id)))
     }
-    closeDeleteModal();
-  };
+    closeDeleteModal()
+  }
 
-
+  // Fetch categories
   const { category } = useAppSelector((store) => store.category)
-
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 6
-
   useEffect(() => {
     dispatch(fetchCategory())
   }, [dispatch])
 
-  // Pagination logic
+  // Search logic
+  const [searchedText, setSearchedText] = useState<string>("")
+  
+  const filteredData = category.filter((c) => {
+    const searchLower = searchedText.toLowerCase()
+    return (
+      c.categoryName.toLowerCase().includes(searchLower) ||
+      (c.id?.toString() ?? "").toLowerCase().includes(searchLower) ||
+      c.categoryDescription.toLowerCase().includes(searchLower)
+    )
+  })
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 6
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = category.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(category.length / itemsPerPage)
-
-  const handleCategoryDelete=(id:string)=>{
-    dispatch(deleteCategory(id))
-  }
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage)
 
   return (
     <div className="flex flex-col p-4">
       {/* Add Category Modal */}
-      {isModalOpen && <AddCategoryModal closeModal={closeModal}/>}
+      {isModalOpen && <AddCategoryModal closeModal={closeModal} />}
       {/* Edit Category Modal */}
       {editCategoryModalOpen && selectedCategory && (
-        <EditCategoryModal category={selectedCategory} closeModal={closeEditCategoryModal}/>
+        <EditCategoryModal category={selectedCategory} closeModal={closeEditCategoryModal} />
       )}
-
-      {/* confirm delete pop up */}
+      {/* Delete Modal */}
       {deleteModalOpen && categoryToDelete && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full mx-4">
-          <h2 className="text-lg font-semibold mb-4">Confirm Deletion</h2>
-          <p className="mb-6">
-            Are you sure you want to delete <strong>{categoryToDelete.categoryName}</strong>?
-          </p>
-          <div className="flex justify-end gap-3">
-            <button
-              onClick={closeDeleteModal}
-              className="px-4 py-2 border rounded-md hover:bg-gray-100 transition"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={confirmDelete}
-              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
-            >
-              Delete
-            </button>
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 shadow-xl rounded-lg p-6 w-96 border border-red-800 pointer-events-auto">
+            <h2 className="text-lg font-semibold mb-3 text-white">Confirm Deletion</h2>
+            <p className="text-sm text-red-100 mb-5">
+              Are you sure you want to delete{" "}
+              <strong className="text-white">{categoryToDelete.categoryName}</strong>?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={closeDeleteModal}
+                className="px-4 py-2 text-sm bg-white text-red-700 rounded-md hover:bg-gray-100 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 text-sm bg-yellow-400 text-red-900 font-semibold rounded-md hover:bg-yellow-300 transition"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
-
+      )}
 
       {/* Search & Add */}
       <div className="flex items-center mb-6">
@@ -122,23 +121,22 @@ const Category= () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <circle cx="11" cy="11" r="7" strokeWidth="2" />
-              <line
-                x1="16.6569"
-                y1="16.6569"
-                x2="21"
-                y2="21"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <line x1="16.6569" y1="16.6569" x2="21" y2="21" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </div>
           <input
             type="text"
+            value={searchedText ?? ""}
+            onChange={(e) => {
+              setSearchedText(e.target.value)
+              setCurrentPage(1) // reset pagination on search
+            }}
             className="block w-full h-12 pl-12 pr-5 text-sm md:text-base font-medium text-gray-900 bg-white border border-gray-300 rounded-full placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             placeholder="Search for category"
           />
         </div>
-        <button onClick={openModal}
+        <button
+          onClick={openModal}
           className="ml-3 px-5 py-2 bg-red-600 text-white font-semibold rounded-full shadow hover:bg-indigo-700 transition-all duration-300"
         >
           Add
@@ -170,9 +168,7 @@ const Category= () => {
                 {currentItems.map((c: ICategoryData, idx) => (
                   <tr
                     key={c.id}
-                    className={`transition-all duration-300 ${
-                      idx % 2 === 0 ? "bg-gray-50" : "bg-white"
-                    } hover:bg-indigo-50`}
+                    className={`transition-all duration-300 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-indigo-50`}
                   >
                     <td className="p-5 whitespace-nowrap text-sm md:text-base font-medium text-gray-800">
                       {c.categoryName}
@@ -181,14 +177,15 @@ const Category= () => {
                       {c.categoryDescription}
                     </td>
                     <td className="p-5 whitespace-nowrap text-sm md:text-base text-gray-500">
-                      {c.createdAt
-                        ? new Date(c.createdAt).toLocaleDateString()
-                        : "-"}
+                      {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : "-"}
                     </td>
                     <td className="p-5">
                       <div className="flex items-center gap-2">
                         {/* Edit */}
-                        <button onClick={()=>openEditCategoryModalOpen(c)} className="p-2 rounded-full bg-indigo-100 hover:bg-indigo-200 transition">
+                        <button
+                          onClick={() => openEditCategoryModalOpen(c)}
+                          className="p-2 rounded-full bg-indigo-100 hover:bg-indigo-200 transition"
+                        >
                           <svg
                             className="w-5 h-5 text-indigo-600"
                             fill="none"
@@ -203,7 +200,10 @@ const Category= () => {
                         </button>
 
                         {/* Delete */}
-                        <button onClick={() => openDeleteModal(c)} className="p-2 rounded-full hover:bg-red-100 transition">
+                        <button
+                          onClick={() => openDeleteModal(c)}
+                          className="p-2 rounded-full hover:bg-red-100 transition"
+                        >
                           <svg
                             className="w-5 h-5 text-red-600"
                             fill="none"
@@ -249,9 +249,7 @@ const Category= () => {
               key={pageNum}
               onClick={() => setCurrentPage(pageNum)}
               className={`px-3 py-1 rounded ${
-                currentPage === pageNum
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                currentPage === pageNum ? "bg-indigo-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
               {pageNum}

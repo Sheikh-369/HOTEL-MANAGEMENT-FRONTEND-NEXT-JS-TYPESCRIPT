@@ -1,4 +1,16 @@
+import Link from "next/link"
+
 function AdminDashboard({ children }: Readonly<{ children: React.ReactNode }>) {
+  const sidebarItems = [
+    { name: "Users", icon: "users", path: "/admin/dashboard/ausers" },
+    { name: "Menu", icon: "utensils", path: "/admin/dashboard/menu" },
+    { name: "Category", icon: "tags", path: "/admin/dashboard/category" },
+    { name: "Reservations", icon: "calendar-check", path: "/admin/dashboard/reservations" },
+    { name: "Tables", icon: "table", path: "/admin/dashboard/tables" },
+    { name: "Order", icon: "shopping-cart", path: "/admin/dashboard/order" },
+    { name: "Order Items", icon: "list", path: "/admin/dashboard/order-items" },
+  ]
+
   return (
     <>
       <div>
@@ -23,20 +35,17 @@ function AdminDashboard({ children }: Readonly<{ children: React.ReactNode }>) {
 
           <nav className="mt-8 px-4">
             <div className="space-y-2">
-              {["Dashboard", "Users", "Analytics", "Orders", "Products", "Settings"].map((item, idx) => (
-                <a
+              {sidebarItems.map((item, idx) => (
+                <Link
                   key={idx}
-                  href="#"
+                  href={item.path}
                   className="flex items-center px-4 py-3 text-white hover:bg-red-800 hover:text-yellow-200 rounded-lg transition-colors group"
                 >
-                  <i className={`fas fa-${item === "Dashboard" ? "home" :
-                                   item === "Users" ? "users" :
-                                   item === "Analytics" ? "chart-bar" :
-                                   item === "Orders" ? "shopping-cart" :
-                                   item === "Products" ? "box" : "cog"
-                                 } mr-3 text-yellow-300 group-hover:text-yellow-200`} />
-                  {item}
-                </a>
+                  <i
+                    className={`fas fa-${item.icon} mr-3 text-yellow-300 group-hover:text-yellow-200`}
+                  />
+                  {item.name}
+                </Link>
               ))}
             </div>
           </nav>
