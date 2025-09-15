@@ -2,7 +2,7 @@ import Link from "next/link"
 
 function AdminDashboard({ children }: Readonly<{ children: React.ReactNode }>) {
   const sidebarItems = [
-    { name: "Users", icon: "users", path: "/admin/dashboard/ausers" },
+    { name: "Users", icon: "users", path: "/admin/dashboard/users" },
     { name: "Menu", icon: "utensils", path: "/admin/dashboard/menu" },
     { name: "Category", icon: "tags", path: "/admin/dashboard/category" },
     { name: "Reservations", icon: "calendar-check", path: "/admin/dashboard/reservations" },

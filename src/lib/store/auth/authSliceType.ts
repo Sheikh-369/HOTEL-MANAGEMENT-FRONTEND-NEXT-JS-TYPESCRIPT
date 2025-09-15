@@ -4,6 +4,7 @@ export interface IUserRegisterData{
     userName:string,
     userEmail:string,
     phoneNumber:string,
+    address:string,
     password:string,
     confirmPassword:string
 }

@@ -7,12 +7,14 @@ import API from "@/lib/http/API";
 import { ILgiinData } from "@/app/auth/global/login/page";
 import { IForgotPasswordData } from "@/app/auth/global/forgot-password/page";
 import { IResetPasswordData } from "@/app/auth/global/reset-password/page";
+import APIWITHTOKEN from "@/lib/http/APIWithToken";
 
 const initialState:IAuthSliceState={
     user:{
         userName:"",
         userEmail:"",
         phoneNumber:"",
+        address:"",
         password:"",
         confirmPassword:""
     },
@@ -48,6 +50,7 @@ const authSlice=createSlice({
 export const{setUser,setStatus,setMessage,resetStatus}=authSlice.actions
 export default authSlice.reducer
 
+//register user
 export function userRegister(registerData:RegisterData){
     return async function userRegisterThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING));
@@ -68,6 +71,7 @@ export function userRegister(registerData:RegisterData){
     }
 }
 
+//loginUser
 export function userLogin(loginData:ILgiinData) {
     return async function userLoginThunk(dispatch: AppDispatch) {
         dispatch(setStatus(Status.LOADING));
