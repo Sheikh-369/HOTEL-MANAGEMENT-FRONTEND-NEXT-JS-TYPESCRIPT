@@ -10,6 +10,7 @@ export interface RegisterData{
   userName:string,
   userEmail:string,
   phoneNumber:string,
+  address:string,
   password:string,
   confirmPassword:string
 }
@@ -24,6 +25,7 @@ const UserRegister=()=>{
       userName:'',
       userEmail:'',
       phoneNumber:"",
+      address:"",
       password:"",
       confirmPassword:""
     })
@@ -120,6 +122,20 @@ const UserRegister=()=>{
                 onChange={handleRegisterDataChange}
                 className="w-full px-4 py-2 bg-transparent border border-cyan-400/50 rounded-md placeholder-cyan-300 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 placeholder="9XXXXXXXXX"
+              />
+              <i className="fas fa-phone absolute right-3 top-1/2 transform -translate-y-1/2 text-cyan-400 text-xs"></i>
+            </div>
+          </div>
+          {/* Address */}
+          <div className="mb-4">
+            <label className="block mb-1 text-sm text-cyan-100">Address</label>
+            <div className="relative">
+              <input
+                name="address"
+                type="text"
+                onChange={handleRegisterDataChange}
+                className="w-full px-4 py-2 bg-transparent border border-cyan-400/50 rounded-md placeholder-cyan-300 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                placeholder="Kathmandu"
               />
               <i className="fas fa-phone absolute right-3 top-1/2 transform -translate-y-1/2 text-cyan-400 text-xs"></i>
             </div>
