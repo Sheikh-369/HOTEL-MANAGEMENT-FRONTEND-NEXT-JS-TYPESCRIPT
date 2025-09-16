@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname=usePathname()
-  const noNavbarRoutes = ["/admin/dashboard", "/admin/dashboard/category","/admin/dashboard/reservation","/admin/dashboard/menu","/admin/dashboard/table","/admin/dashboard/users"]
+  const noNavbarRoutes = ["/admin/dashboard", "/admin/dashboard/category","/admin/dashboard/reservation","/admin/dashboard/menu","/admin/dashboard/table","/admin/dashboard/users","/admin/dashboard/tables"]
   return (
     <html lang="en">
       <body

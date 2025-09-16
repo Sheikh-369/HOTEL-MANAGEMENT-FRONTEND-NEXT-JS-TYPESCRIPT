@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./auth/auth-slice"
 import categorySlice from "./admin/category/categorySlice"
 import users from "./user/user-slice"
+import tables from "./tables/table-slice"
 
 const store=configureStore({
     reducer:{
         auth:authSlice,
         category:categorySlice,
-        user:users
+        user:users,
+        table:tables
     }
 })
 
