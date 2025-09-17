@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { addTable, deleteTable, fetchTables } from "@/lib/store/tables/table-slice";
-import { ITableData } from "@/lib/store/tables/table-slice-type";
+import { addTable, deleteTable, fetchTables } from "@/lib/store/admin/tables/table-slice";
+import { ITableData } from "@/lib/store/admin/tables/table-slice-type";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { EditTableModal } from "./editTableModal";
 

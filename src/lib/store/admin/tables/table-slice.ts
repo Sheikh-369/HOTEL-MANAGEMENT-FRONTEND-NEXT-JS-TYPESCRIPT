@@ -1,7 +1,7 @@
 import { Status } from "@/lib/global-type/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITableData, ITableInitialStatus } from "./table-slice-type";
-import { AppDispatch } from "../store";
+import { AppDispatch } from "../../store";
 import APIWITHTOKEN from "@/lib/http/APIWithToken";
 
 const initialState:ITableInitialStatus={

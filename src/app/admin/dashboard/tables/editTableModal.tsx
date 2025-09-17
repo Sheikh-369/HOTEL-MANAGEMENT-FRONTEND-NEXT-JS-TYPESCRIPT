@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/lib/store/hooks";
-import { editTable } from "@/lib/store/tables/table-slice";
-import { ITableData } from "@/lib/store/tables/table-slice-type";
+import { editTable } from "@/lib/store/admin/tables/table-slice";
+import { ITableData } from "@/lib/store/admin/tables/table-slice-type";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 interface IEditModalProps {

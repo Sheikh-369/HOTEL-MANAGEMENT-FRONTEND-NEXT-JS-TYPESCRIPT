@@ -1,8 +1,8 @@
 'use client'
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { useEffect, useState } from "react"
-import { IUserData } from "@/lib/store/user/user-slice-type"
-import { fetchUsers } from "@/lib/store/user/user-slice"
+import { IUserData } from "@/lib/store/admin/user/user-slice-type"
+import { fetchUsers } from "@/lib/store/admin/user/user-slice"
 
 const UsersPage = () => {
   const dispatch = useAppDispatch()
