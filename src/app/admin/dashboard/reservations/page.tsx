@@ -1,6 +1,6 @@
 'use client'
 import { fetchReservations } from "@/lib/store/admin/reservatoin/reservation-slice"
-import { IReservationData } from "@/lib/store/admin/reservatoin/reservation=slice-type"
+import { IReservationData } from "@/lib/store/admin/reservatoin/reservation-slice-type"
 import { fetchTables } from "@/lib/store/admin/tables/table-slice"
 import { fetchUsers } from "@/lib/store/admin/user/user-slice"
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"

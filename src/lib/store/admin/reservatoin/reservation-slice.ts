@@ -1,6 +1,6 @@
 import { Status } from "@/lib/global-type/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IReservationData, IReservationSliceStatus } from "./reservation=slice-type";
+import { IReservationData, IReservationSliceStatus } from "./reservation-slice-type";
 import { AppDispatch } from "../../store";
 import APIWITHTOKEN from "@/lib/http/APIWithToken";
 
