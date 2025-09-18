@@ -4,6 +4,7 @@ import categorySlice from "./admin/category/categorySlice"
 import users from "./admin/user/user-slice"
 import tables from "./admin/tables/table-slice"
 import menu from "./admin/menu/menu-slice"
+import reservation from "./admin/reservatoin/reservation-slice"
 
 const store=configureStore({
     reducer:{
@@ -11,7 +12,8 @@ const store=configureStore({
         category:categorySlice,
         user:users,
         table:tables,
-        menu
+        menu,
+        reservation
     }
 })
 
